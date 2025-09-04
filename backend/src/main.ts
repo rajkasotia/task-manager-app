@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { formatValidationErrors } from './common/validation/validation.messages';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,8 +22,16 @@ async function bootstrap() {
       whitelist: true, // strip unknown properties
       forbidNonWhitelisted: true, // throw error if unknown properties
       transform: true, // auto transform DTOs
+      exceptionFactory: (validationErrors) => {
+        const messages = formatValidationErrors(validationErrors);
+        const message = messages[0] || 'Invalid input.';
+        return new (require('@nestjs/common').BadRequestException)(message);
+      },
     }),
   );
+
+  // Global exception filter to standardize error responses
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   await app.listen(process.env.PORT || 3000);
 }
