@@ -1,28 +1,26 @@
-import type { Metadata } from "next";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "Task Manager App",
-  description: "A simple task management app",
-};
+import Providers from "./providers";
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body style={{ fontFamily: "sans-serif" }}>
-        <div style={{ padding: "2rem" }}>
-          <header>
-            <h1>My Next.js App</h1>
-          </header>
-          <main>{children}</main>
-        </div>
+    <html suppressHydrationWarning className="!scroll-smooth" lang="en">
+      <body>
+        <Providers>
+          <div className="isolate flex min-h-screen flex-col">
+            <Header />
+
+            <main className="flex-1">{children}</main>
+
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );
 }
-
-
