@@ -1,5 +1,5 @@
-export default function HomePage() {
-  return <h2>Hello user, this is an task management app</h2>;
+import { redirect } from "next/navigation";
+
+export default function Home() {
+  redirect("/signin");
 }
-
-
