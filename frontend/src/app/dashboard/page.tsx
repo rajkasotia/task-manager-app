@@ -1,14 +1,19 @@
 "use client";
 import { fetchProfile, getAuthUser, isAuthenticated } from "@/utils/authClient";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function DashboardPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState<string>("");
+  const effectHasRunRef = useRef(false);
 
   useEffect(() => {
+    // Prevent duplicate execution in React 18 Strict Mode (development)
+    if (effectHasRunRef.current) return;
+    effectHasRunRef.current = true;
+
     if (!isAuthenticated()) {
       router.replace("/signin");
       return;

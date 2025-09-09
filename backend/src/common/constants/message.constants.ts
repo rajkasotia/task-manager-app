@@ -10,6 +10,14 @@ export const DefaultMessages = {
     FORBIDDEN: 'You are not allowed to perform this action',
     ERROR: 'Something went wrong',
   },
+  TASKS: {
+    CREATED: 'Task created successfully',
+    UPDATED: 'Task updated successfully',
+    DELETED: 'Task deleted successfully',
+    LISTED: 'Tasks fetched successfully',
+    NOT_FOUND: 'Task not found',
+    NOT_ALLOWED: 'You are not allowed to perform this action',
+  },
 } as const;
 
 

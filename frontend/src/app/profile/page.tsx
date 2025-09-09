@@ -2,7 +2,7 @@
 import { fetchProfile, getAuthUser, isAuthenticated } from "@/utils/authClient";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 type ProfileData = {
   firstName?: string;
@@ -16,8 +16,12 @@ export default function ProfilePage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<ProfileData | null>(null);
+  const effectHasRunRef = useRef(false);
 
   useEffect(() => {
+    if (effectHasRunRef.current) return;
+    effectHasRunRef.current = true;
+
     if (!isAuthenticated()) {
       router.replace("/signin");
       return;
